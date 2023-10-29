@@ -27,8 +27,9 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  return num % 3 === 0 && num % 5 === 0 ? 'FizzBuzz' : num % 5 === 0 && num % 3 !== 0 ? 'Buzz'
+    : 'Fizz';
 }
 
 
@@ -43,8 +44,14 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  if (n === 1) {
+    return 1
+  }
+    while (n > 1) {
+      let fact = getFactorial(n - 1) * n
+    };
+  return fact
 }
 
 
