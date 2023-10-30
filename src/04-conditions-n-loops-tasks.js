@@ -34,7 +34,10 @@ function getFizzBuzz(num) {
   if (num % 5 === 0 && num % 3 !== 0) {
     return 'Buzz';
   }
-  return 'Fizz';
+  if (num % 3 === 0 && num % 5 !== 0) {
+    return 'Fizz';
+  }
+  return num;
 }
 
 
@@ -176,8 +179,7 @@ function doRectanglesOverlap(rect1, rect2) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  */
 function isInsideCircle(circle, point) {
-  const distance = Math.sqrt(point.x - circle.center.x ** 2 + point.y - circle.center.y ** 2);
-
+  const distance = Math.sqrt((point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2);
   return distance < circle.radius;
 }
 
@@ -194,7 +196,12 @@ function isInsideCircle(circle, point) {
  *   'entente' => null
  */
 function findFirstSingleChar(str) {
-  return Array.from(new Set(str.replace(/\s/g, '').split(''))).slice(0, 1) || 0;
+  for (let i = 0; i < str.length; i += 1) {
+    if (str.indexOf(str[i]) === str.lastIndexOf(str[i])) {
+      return str[i];
+    }
+  }
+  return null;
 }
 
 
@@ -425,12 +432,23 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-  return pathes.reduce((acc, path) => {
-    while (!path.startsWith(acc)) {
-      acc = acc.slice(0, -1);
+  if (!pathes || pathes.length === 0) {
+    return '';
+  }
+
+  const minLen = Math.min(...pathes.map((path) => path.length));
+
+  let commonPath = '';
+  for (let i = 0; i < minLen; i += 1) {
+    const char = pathes[0][i];
+    if (pathes.every((path) => path[i] === char)) {
+      commonPath += char;
+    } else {
+      break;
     }
-    return acc;
-  });
+  }
+
+  return commonPath.slice(0, commonPath.lastIndexOf('/') + 1);
 }
 
 
